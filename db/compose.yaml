@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres
+    container_name: kollab-db
+    ports:
+      - "5000:5432"
+    environment:
+      - POSTGRES_USER=kollab
+      - POSTGRES_PASSWORD=kollab
+      - POSTGRES_DB=kollab-db

@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: kollab
+
+  datasource:
+    url: jdbc:postgresql://localhost:5000/kollab-db
+    username: kollab
+    password: kollab
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+jwt:
+  secret-key: wP/Vm8hcBfH0FRQLjgxB+PV9IlFZ7gwxhW3On7lMK9Fa+PtxCLgKsaVO9nB1f3VjKM3b5tttu0GZoqNlJWIwOw==
+  token-validity: 3600000
