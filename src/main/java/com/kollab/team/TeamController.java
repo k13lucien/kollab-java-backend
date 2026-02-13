@@ -1,13 +1,78 @@
 package com.kollab.team;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.kollab.team.dto.TeamRequestDTO;
+import com.kollab.team.dto.TeamResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/teams")
 public class TeamController {
 
-    @GetMapping("/teams")
-    public String getTeams() {
-        return "List of teams";
+    private final TeamService service;
+
+    @Autowired
+    public TeamController(TeamService service) {
+        this.service = service;
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public TeamResponseDTO saveTeam(
+            @RequestBody TeamRequestDTO dto
+    ) {
+        return service.saveTeam(dto);
+    }
+
+//    @GetMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<TeamRequestDTO> getAllTeam() {
+//        return service.retrieveAllTeams();
+//    }
+//
+//    @GetMapping("/{team-id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public TeamRequestDTO getTeamById(
+//            @PathVariable("team-id") Integer id
+//    ) {
+//        return service.retrieveTeam(id);
+//    }
+
+//    @PutMapping("/{team-id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public TeamRequestDTO updateTeam(
+//            @PathVariable("team-id") Integer id,
+//            @RequestBody TeamRequestDTO dto
+//    ) {
+//        return service.updateTeam(dto, id);
+//    }
+
+//    @DeleteMapping("/{team-id}")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public void deleteTeam(
+//            @PathVariable("team-id") Integer id
+//    ) {
+//        service.deleteTeam(id);
+//    }
+
+//    @PostMapping("/{team-id}/members/{user-id}")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public void addMember(
+//            @PathVariable("team-id") Integer teamId,
+//            @PathVariable("user-id") Integer userId
+//    ) {
+//        service.addMember(teamId, userId);
+//    }
+
+//    @DeleteMapping("/{team-id}/members/{user-id}")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public void removeMember(
+//            @PathVariable("team-id") Integer teamId,
+//            @PathVariable("user-id") Integer userId
+//    ) {
+//        service.removeMember(teamId, userId);
+//    }
 }
