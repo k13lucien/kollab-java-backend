@@ -50,19 +50,18 @@ public class TeamService {
 //                .toList();
 //    }
 
-//    @Transactional
-//    public TeamRequestDTO updateTeam(TeamRequestDTO dto, Integer id) {
-//        Team existingTeam = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
-//
-//        // Optionnel: vérifier que c'est le propriétaire qui modifie
-//        // checkOwner(existingTeam);
-//
-//        existingTeam.setName(dto.name());
-//        existingTeam.setLabel(dto.label());
-//        Team updatedTeam = repository.save(existingTeam);
-//        return mapper.toTeamDTO(updatedTeam);
-//    }
+    @Transactional
+    public TeamResponseDTO updateTeam(TeamRequestDTO dto, Integer id) {
+        Team existingTeam = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+
+        checkOwner(existingTeam);
+
+        existingTeam.setName(dto.name());
+        existingTeam.setLabel(dto.label());
+        Team updatedTeam = repository.save(existingTeam);
+        return mapper.toTeamResponseDTO(updatedTeam);
+    }
 
 //    @Transactional
 //    public void deleteTeam(Integer id) {
@@ -113,10 +112,10 @@ public class TeamService {
         return userRepository.findByUsername(username);
     }
 
-//    private void checkOwner(Team team) {
-//        User currentUser = getCurrentUser();
-//        if (!team.getOwner().equals(currentUser)) {
-//            throw new IllegalStateException("Only the owner can perform this action");
-//        }
-//    }
+    private void checkOwner(Team team) {
+        User currentUser = getCurrentUser();
+        if (!team.getOwner().equals(currentUser)) {
+            throw new IllegalStateException("Only the owner can perform this action");
+        }
+    }
 }

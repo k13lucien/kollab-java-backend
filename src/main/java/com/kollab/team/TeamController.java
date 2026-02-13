@@ -41,14 +41,14 @@ public class TeamController {
 //        return service.retrieveTeam(id);
 //    }
 
-//    @PutMapping("/{team-id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public TeamRequestDTO updateTeam(
-//            @PathVariable("team-id") Integer id,
-//            @RequestBody TeamRequestDTO dto
-//    ) {
-//        return service.updateTeam(dto, id);
-//    }
+    @PutMapping("/{team-id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TeamResponseDTO updateTeam(
+            @PathVariable("team-id") Integer id,
+            @RequestBody TeamRequestDTO dto
+    ) {
+        return service.updateTeam(dto, id);
+    }
 
 //    @DeleteMapping("/{team-id}")
 //    @ResponseStatus(HttpStatus.ACCEPTED)

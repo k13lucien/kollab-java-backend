@@ -2,18 +2,21 @@ package com.kollab.team;
 
 import com.kollab.authentication.model.User;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"owner", "members"})
 public class Team {
     @Id
     @GeneratedValue
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @Column(nullable = false)
