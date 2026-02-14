@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TeamService {
@@ -64,49 +65,47 @@ public class TeamService {
         return mapper.toTeamResponseDTO(updatedTeam);
     }
 
-//    @Transactional
-//    public void deleteTeam(Integer id) {
-//        Team existingTeam = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
-//
-//        // Optionnel: vérifier que c'est le propriétaire qui supprime
-//        checkOwner(existingTeam);
-//
-//        repository.delete(existingTeam);
-//    }
+    @Transactional
+    public void deleteTeam(Integer id) {
+        Team existingTeam = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
 
-//    @Transactional
-//    public void addMember(Integer teamId, Integer userId) {
-//        Team team = repository.findById(teamId)
-//                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
-//
-//        // Optionnel: seul le propriétaire peut ajouter des membres
-//        checkOwner(team);
-//
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-//
-//        team.getMembers().add(user);
-//        repository.save(team);
-//    }
+        checkOwner(existingTeam);
 
-//    @Transactional
-//    public void removeMember(Integer teamId, Integer userId) {
-//        Team team = repository.findById(teamId)
-//                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
-//
-//        checkOwner(team);
-//
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-//
-//        if (team.getOwner().equals(user)) {
-//            throw new IllegalStateException("Cannot remove the owner from the team");
-//        }
-//
-//        team.getMembers().remove(user);
-//        repository.save(team);
-//    }
+        repository.delete(existingTeam);
+    }
+
+    @Transactional
+    public void addMember(Integer teamId, UUID userId) {
+        Team team = repository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+
+        checkOwner(team);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        team.getMembers().add(user);
+        repository.save(team);
+    }
+
+    @Transactional
+    public void removeMember(Integer teamId, UUID userId) {
+        Team team = repository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+
+        checkOwner(team);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (team.getOwner().equals(user)) {
+            throw new IllegalStateException("Cannot remove the owner from the team");
+        }
+
+        team.getMembers().remove(user);
+        repository.save(team);
+    }
 
     private User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

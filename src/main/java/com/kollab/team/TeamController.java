@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/teams")
@@ -50,29 +51,29 @@ public class TeamController {
         return service.updateTeam(dto, id);
     }
 
-//    @DeleteMapping("/{team-id}")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public void deleteTeam(
-//            @PathVariable("team-id") Integer id
-//    ) {
-//        service.deleteTeam(id);
-//    }
+    @DeleteMapping("/{team-id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteTeam(
+            @PathVariable("team-id") Integer id
+    ) {
+        service.deleteTeam(id);
+    }
 
-//    @PostMapping("/{team-id}/members/{user-id}")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public void addMember(
-//            @PathVariable("team-id") Integer teamId,
-//            @PathVariable("user-id") Integer userId
-//    ) {
-//        service.addMember(teamId, userId);
-//    }
+    @PostMapping("/{team-id}/members/{user-id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void addMember(
+            @PathVariable("team-id") Integer teamId,
+            @PathVariable("user-id") UUID userId
+    ) {
+        service.addMember(teamId, userId);
+    }
 
-//    @DeleteMapping("/{team-id}/members/{user-id}")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public void removeMember(
-//            @PathVariable("team-id") Integer teamId,
-//            @PathVariable("user-id") Integer userId
-//    ) {
-//        service.removeMember(teamId, userId);
-//    }
+    @DeleteMapping("/{team-id}/members/{user-id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void removeMember(
+            @PathVariable("team-id") Integer teamId,
+            @PathVariable("user-id") UUID userId
+    ) {
+        service.removeMember(teamId, userId);
+    }
 }
