@@ -27,19 +27,19 @@ public class TeamController {
         return service.saveTeam(dto);
     }
 
-//    @GetMapping
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<TeamRequestDTO> getAllTeam() {
-//        return service.retrieveAllTeams();
-//    }
-//
-//    @GetMapping("/{team-id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public TeamRequestDTO getTeamById(
-//            @PathVariable("team-id") Integer id
-//    ) {
-//        return service.retrieveTeam(id);
-//    }
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamResponseDTO> getAllTeams() {
+        return service.retrieveAllTeams();
+    }
+
+    @GetMapping("/{team-id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TeamResponseDTO getTeamById(
+            @PathVariable("team-id") Integer id
+    ) {
+        return service.retrieveTeam(id);
+    }
 
     @PutMapping("/{team-id}")
     @ResponseStatus(HttpStatus.OK)

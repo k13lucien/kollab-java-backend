@@ -37,18 +37,19 @@ public class TeamService {
         return mapper.toTeamResponseDTO(savedTeam);
     }
 
-//    public TeamRequestDTO retrieveTeam(Integer id) {
-//        var team = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
-//        return mapper.toTeamDTO(team);
-//    }
+    public TeamResponseDTO retrieveTeam(Integer id) {
+        var team = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+        return mapper.toTeamResponseDTO(team);
+    }
 
-//    public List<TeamRequestDTO> retrieveAllTeams() {
-//        return repository.findAll()
-//                .stream()
-//                .map(mapper::toTeamDTO)
-//                .toList();
-//    }
+    public List<TeamResponseDTO> retrieveAllTeams() {
+
+        return repository.findByMembersId(getCurrentUser().getId())
+                .stream()
+                .map(mapper::toTeamResponseDTO)
+                .toList();
+    }
 
     @Transactional
     public TeamResponseDTO updateTeam(TeamRequestDTO dto, Integer id) {

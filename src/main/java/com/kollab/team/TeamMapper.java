@@ -35,6 +35,7 @@ public class TeamMapper {
                                         .collect(Collectors.toSet());
 
         return new TeamResponseDTO(
+                team.getId(),
                 team.getName(),
                 team.getLabel(),
                 owner,
