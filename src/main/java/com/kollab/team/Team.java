@@ -1,6 +1,7 @@
 package com.kollab.team;
 
 import com.kollab.authentication.model.User;
+import com.kollab.project.Project;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,10 +37,10 @@ public class Team {
     )
     private Set<User> members = new HashSet<>();
 
-//    @OneToMany(
-//            mappedBy = "team",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    private Set<Project> projects = new HashSet<>();
+    @OneToMany(
+            mappedBy = "team",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Project> projects = new HashSet<>();
 }

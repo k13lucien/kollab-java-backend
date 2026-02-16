@@ -2,6 +2,7 @@ package com.kollab.team;
 
 import com.kollab.authentication.model.User;
 import com.kollab.authentication.repository.UserRepository;
+import com.kollab.authentication.service.UserService;
 import com.kollab.team.dto.TeamRequestDTO;
 import com.kollab.team.dto.TeamResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,17 +20,19 @@ public class TeamService {
     private final TeamMapper mapper;
     private final TeamRepository repository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public TeamService(TeamRepository repository, TeamMapper mapper, UserRepository userRepository) {
+    public TeamService(TeamRepository repository, TeamMapper mapper, UserRepository userRepository, UserService userService) {
         this.repository = repository;
         this.mapper = mapper;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Transactional
     public TeamResponseDTO saveTeam(TeamRequestDTO dto) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         Team team = mapper.toTeam(dto);
         team.setOwner(currentUser);
         team.getMembers().add(currentUser);
@@ -46,7 +49,7 @@ public class TeamService {
 
     public List<TeamResponseDTO> retrieveAllTeams() {
 
-        return repository.findByMembersId(getCurrentUser().getId())
+        return repository.findByMembersId(userService.getCurrentUser().getId())
                 .stream()
                 .map(mapper::toTeamResponseDTO)
                 .toList();
@@ -107,13 +110,8 @@ public class TeamService {
         repository.save(team);
     }
 
-    private User getCurrentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByUsername(username);
-    }
-
-    private void checkOwner(Team team) {
-        User currentUser = getCurrentUser();
+    public void checkOwner(Team team) {
+        User currentUser = userService.getCurrentUser();
         if (!team.getOwner().equals(currentUser)) {
             throw new IllegalStateException("Only the owner can perform this action");
         }
