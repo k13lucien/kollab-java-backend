@@ -71,9 +71,15 @@ public class ProjectService {
         return mapper.toProjectResponseDTO(updatedProject);
     }
 
-//    public void deleteProject(Integer id) {
-//        Project existingProject = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
-//        repository.delete(existingProject);
-//    }
+    @Transactional
+    public void deleteProject(Integer id) {
+        Project existingProject = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+        teamService.checkOwner(teamRepository.findById(existingProject.getTeam().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Team not found")
+        ));
+
+        repository.delete(existingProject);
+    }
 }

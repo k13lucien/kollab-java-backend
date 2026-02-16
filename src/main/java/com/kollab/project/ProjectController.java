@@ -48,11 +48,11 @@ public class ProjectController {
         return service.updateProject(dto, id);
     }
 
-//    @DeleteMapping("{project-id}")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public void deleteProject(
-//            @PathVariable("project-id") Integer id
-//    ) {
-//        service.deleteProject(id);
-//    }
+    @DeleteMapping("{project-id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteProject(
+            @PathVariable("project-id") Integer id
+    ) {
+        service.deleteProject(id);
+    }
 }
