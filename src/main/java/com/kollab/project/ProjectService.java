@@ -38,19 +38,19 @@ public class ProjectService {
         return mapper.toProjectResponseDTO(savedProject);
     }
 
-//    public ProjectRequestDTO retrieveProject(Integer id) {
-//        Project project = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
-//
-//        return mapper.toProjectDTO(project);
-//    }
-//
-//    public List<ProjectResponseDTO> retrieveAllProject() {
-//        return repository.findAll()
-//                .stream()
-//                .map(mapper::toProjectResponseDTO)
-//                .toList();
-//    }
+    public ProjectResponseDTO retrieveProject(Integer id) {
+        Project project = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+        return mapper.toProjectResponseDTO(project);
+    }
+
+    public List<ProjectResponseDTO> retrieveAllProject() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toProjectResponseDTO)
+                .toList();
+    }
 
 //    public ProjectRequestDTO updateProject(ProjectRequestDTO dto, Integer id) {
 //        Project existingProject = repository.findById(id)

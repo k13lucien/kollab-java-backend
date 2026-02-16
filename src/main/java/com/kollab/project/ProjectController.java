@@ -25,19 +25,19 @@ public class ProjectController {
         return service.saveProject(dto);
     }
 
-//    @GetMapping
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<ProjectResponseDTO> getAllProjects() {
-//        return service.retrieveAllProject();
-//    }
-//
-//    @GetMapping("{project-id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ProjectRequestDTO getProjectById(
-//            @PathVariable("project-id") Integer id
-//    ) {
-//        return service.retrieveProject(id);
-//    }
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProjectResponseDTO> getAllProjects() {
+        return service.retrieveAllProject();
+    }
+
+    @GetMapping("{project-id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProjectResponseDTO getProjectById(
+            @PathVariable("project-id") Integer id
+    ) {
+        return service.retrieveProject(id);
+    }
 //
 //    @PutMapping("{project-id}")
 //    @ResponseStatus(HttpStatus.OK)
