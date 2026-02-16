@@ -1,5 +1,6 @@
 package com.kollab.authentication.model;
 
+import com.kollab.task.Task;
 import com.kollab.team.Team;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,4 +47,6 @@ public class User {
     @ManyToMany(mappedBy = "members")
     private Set<Team> teams = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<Task> tasks = new HashSet<>();
 }

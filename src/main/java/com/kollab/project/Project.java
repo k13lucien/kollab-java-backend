@@ -1,5 +1,6 @@
 package com.kollab.project;
 
+import com.kollab.task.Task;
 import com.kollab.team.Team;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,11 +39,10 @@ public class Project {
     )
     private Team team;
 
-//    @OneToMany(
-//            mappedBy = "project",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    @Column(nullable = true)
-//    private Set<Task> tasks = new HashSet<>();
+    @OneToMany(
+            mappedBy = "project",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Task> tasks = new HashSet<>();
 }
