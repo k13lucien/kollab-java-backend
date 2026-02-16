@@ -38,15 +38,15 @@ public class ProjectController {
     ) {
         return service.retrieveProject(id);
     }
-//
-//    @PutMapping("{project-id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ProjectRequestDTO updateProject(
-//            @PathVariable("project-id") Integer id,
-//            @RequestBody ProjectRequestDTO dto
-//    ) {
-//        return service.updateProject(dto, id);
-//    }
+
+    @PutMapping("{project-id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProjectResponseDTO updateProject(
+            @PathVariable("project-id") Integer id,
+            @RequestBody ProjectRequestDTO dto
+    ) {
+        return service.updateProject(dto, id);
+    }
 
 //    @DeleteMapping("{project-id}")
 //    @ResponseStatus(HttpStatus.ACCEPTED)

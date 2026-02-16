@@ -52,18 +52,24 @@ public class ProjectService {
                 .toList();
     }
 
-//    public ProjectRequestDTO updateProject(ProjectRequestDTO dto, Integer id) {
-//        Project existingProject = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
-//
-//        existingProject.setName(dto.name());
-//        existingProject.setLabel(dto.label());
-//        existingProject.setDeadline(dto.deadline());
-//
-//        Project updatedProject = repository.save(existingProject);
-//
-//        return mapper.toProjectDTO(updatedProject);
-//    }
+    @Transactional
+    public ProjectResponseDTO updateProject(ProjectRequestDTO dto, Integer id) {
+        Project existingProject = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+        teamService.checkOwner(teamRepository.findById(existingProject.getTeam().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Team not found")
+        ));
+
+        existingProject.setName(dto.name());
+        existingProject.setLabel(dto.label());
+        existingProject.setStartDate(dto.startDate());
+        existingProject.setDeadline(dto.deadline());
+
+        Project updatedProject = repository.save(existingProject);
+
+        return mapper.toProjectResponseDTO(updatedProject);
+    }
 
 //    public void deleteProject(Integer id) {
 //        Project existingProject = repository.findById(id)
