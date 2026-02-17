@@ -42,11 +42,11 @@ public class TaskController {
     ) {
         return service.updateTask(dto, id);
     }
-//
-//    @DeleteMapping("/{task-id}")
-//    public void deleteTask(
-//            @PathVariable("task-id") Integer id
-//    ) {
-//        service.deleteTask(id);
-//    }
+
+    @DeleteMapping("/{task-id}")
+    public void deleteTask(
+            @PathVariable("task-id") Integer id
+    ) {
+        service.deleteTask(id);
+    }
 }

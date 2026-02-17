@@ -71,11 +71,12 @@ public class TaskService {
 
         return mapper.toTaskResponseDTO(repository.save(existingTask));
     }
-//
-//    public void deleteTask(Integer id) {
-//        Task existingTask = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Task not found"));
-//
-//        repository.delete(existingTask);
-//    }
+
+    @Transactional
+    public void deleteTask(Integer id) {
+        Task existingTask = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found"));
+
+        repository.delete(existingTask);
+    }
 }
