@@ -1,5 +1,7 @@
 package com.kollab.task;
 
+import com.kollab.authentication.model.User;
+import com.kollab.authentication.repository.UserRepository;
 import com.kollab.project.Project;
 import com.kollab.project.ProjectRepository;
 import com.kollab.task.dto.TaskRequestDTO;
@@ -22,7 +24,7 @@ public class TaskService {
     private final ProjectRepository projectRepository;
 
 
-    public TaskService(TaskMapper taskMapper, TaskRepository taskRepository, TeamService teamService, TeamRepository teamRepository, ProjectRepository projectRepository) {
+    public TaskService(TaskMapper taskMapper, TaskRepository taskRepository, TeamService teamService, TeamRepository teamRepository, ProjectRepository projectRepository, UserRepository userRepository) {
         this.mapper = taskMapper;
         this.repository = taskRepository;
         this.teamService = teamService;
@@ -50,22 +52,25 @@ public class TaskService {
         Task savedTask = repository.save(mapper.toTask(dto));
         return mapper.toTaskResponseDTO(savedTask);
     }
-//
-//    public TaskRequestDTO updateTask(TaskRequestDTO dto, Integer id) {
-//        Task existingTask = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Task not found"));
-//
-//        Task updatedTask = new Task();
-//        updatedTask.setTitle(dto.title());
-//        updatedTask.setLabel(dto.label());
-//        updatedTask.setPriority(dto.priority());
-//        updatedTask.setStatus(dto.status());
-//        updatedTask.setDeadline(dto.deadline());
-//
-//        repository.save(updatedTask);
-//
-//        return mapper.toTaskDTO(updatedTask);
-//    }
+
+    @Transactional
+    public TaskResponseDTO updateTask(TaskRequestDTO dto, Integer id) {
+        Task existingTask = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found"));
+
+        Project project = projectRepository.findById(existingTask.getProject().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Project not found")
+        );
+        teamService.checkOwner(project.getTeam());
+
+        existingTask.setTitle(dto.title());
+        existingTask.setLabel(dto.label());
+        existingTask.setStatus(dto.status());
+        existingTask.setPriority(dto.priority());
+        existingTask.setDeadline(dto.deadline());
+
+        return mapper.toTaskResponseDTO(repository.save(existingTask));
+    }
 //
 //    public void deleteTask(Integer id) {
 //        Task existingTask = repository.findById(id)

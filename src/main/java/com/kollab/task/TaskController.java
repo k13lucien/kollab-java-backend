@@ -35,13 +35,13 @@ public class TaskController {
         return service.saveTask(dto);
     }
 
-//    @PutMapping("/{task-id}")
-//    public TaskRequestDTO updateTask(
-//            @RequestBody TaskRequestDTO dto,
-//            @PathVariable("task-id") Integer id
-//    ) {
-//        return service.updateTask(dto, id);
-//    }
+    @PutMapping("/{task-id}")
+    public TaskResponseDTO updateTask(
+            @RequestBody TaskRequestDTO dto,
+            @PathVariable("task-id") Integer id
+    ) {
+        return service.updateTask(dto, id);
+    }
 //
 //    @DeleteMapping("/{task-id}")
 //    public void deleteTask(
