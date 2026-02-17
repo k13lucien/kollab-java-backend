@@ -16,18 +16,18 @@ public class TaskController {
         this.service = service;
     }
 
-//    @GetMapping("/{task-id}")
-//    public TaskRequestDTO getTask(
-//            @PathVariable("task-id") Integer id
-//    ) {
-//        return service.retrieveTask(id);
-//    }
-//
-//    @GetMapping
-//    public List<TaskRequestDTO> getAllTask () {
-//        return service.retrieveAllTask();
-//    }
-//
+    @GetMapping("/{task-id}")
+    public TaskResponseDTO getTask(
+            @PathVariable("task-id") Integer id
+    ) {
+        return service.retrieveTask(id);
+    }
+
+    @GetMapping
+    public List<TaskResponseDTO> getAllTask () {
+        return service.retrieveAllTask();
+    }
+
     @PostMapping
     public TaskResponseDTO saveTask(
             @RequestBody TaskRequestDTO dto

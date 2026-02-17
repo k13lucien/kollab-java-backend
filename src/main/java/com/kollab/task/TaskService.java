@@ -26,21 +26,20 @@ public class TaskService {
         this.mapper = taskMapper;
         this.repository = taskRepository;
         this.teamService = teamService;
-        this.teamRepository = teamRepository;
         this.projectRepository = projectRepository;
     }
-//
-//    public List<TaskRequestDTO> retrieveAllTask() {
-//        return repository.findAll()
-//                .stream()
-//                .map(mapper::toTaskDTO)
-//                .toList();
-//    }
-//
-//    public TaskRequestDTO retrieveTask(Integer id) {
-//        return mapper.toTaskDTO(repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Task not found")));
-//    }
+
+    public List<TaskResponseDTO> retrieveAllTask() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toTaskResponseDTO)
+                .toList();
+    }
+
+    public TaskResponseDTO retrieveTask(Integer id) {
+        return mapper.toTaskResponseDTO(repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found")));
+    }
 
     @Transactional
     public TaskResponseDTO saveTask(TaskRequestDTO dto) {
