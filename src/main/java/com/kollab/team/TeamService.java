@@ -44,6 +44,7 @@ public class TeamService {
     public TeamResponseDTO retrieveTeam(Integer id) {
         var team = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+        checkMembership(team);
         return mapper.toTeamResponseDTO(team);
     }
 
@@ -114,6 +115,13 @@ public class TeamService {
         User currentUser = userService.getCurrentUser();
         if (!team.getOwner().equals(currentUser)) {
             throw new IllegalStateException("Only the owner can perform this action");
+        }
+    }
+
+    public void checkMembership(Team team) {
+        User currentUser = userService.getCurrentUser();
+        if (!team.getMembers().contains(currentUser)) {
+            throw new IllegalStateException("User is not a member of the team");
         }
     }
 }

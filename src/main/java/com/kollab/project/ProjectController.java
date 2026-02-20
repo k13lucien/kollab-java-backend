@@ -25,10 +25,11 @@ public class ProjectController {
         return service.saveProject(dto);
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<ProjectResponseDTO> getAllProjects() {
-        return service.retrieveAllProject();
+    @GetMapping("/teams/{team-id}")
+    public List<ProjectResponseDTO> getProjects(
+            @PathVariable("team-id") Integer teamId
+    ) {
+        return service.retrieveProjects(teamId);
     }
 
     @GetMapping("{project-id}")

@@ -41,15 +41,8 @@ public class ProjectService {
     public ProjectResponseDTO retrieveProject(Integer id) {
         Project project = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Project not found"));
-
+        teamService.checkMembership(project.getTeam());
         return mapper.toProjectResponseDTO(project);
-    }
-
-    public List<ProjectResponseDTO> retrieveAllProject() {
-        return repository.findAll()
-                .stream()
-                .map(mapper::toProjectResponseDTO)
-                .toList();
     }
 
     @Transactional
@@ -81,5 +74,15 @@ public class ProjectService {
         ));
 
         repository.delete(existingProject);
+    }
+
+    public List<ProjectResponseDTO> retrieveProjects(Integer teamId) {
+        teamService.checkMembership(teamRepository.findById(teamId).orElseThrow(
+                () -> new EntityNotFoundException("Team not found")
+        ));
+        return repository.findByTeamId(teamId)
+                .stream()
+                .map(mapper::toProjectResponseDTO)
+                .toList();
     }
 }
