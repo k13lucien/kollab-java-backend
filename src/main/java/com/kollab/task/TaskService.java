@@ -22,6 +22,7 @@ public class TaskService {
     private final TaskRepository repository;
     private final TeamService teamService;
     private final ProjectRepository projectRepository;
+    private final TeamRepository teamRepository;
 
 
     public TaskService(TaskMapper taskMapper, TaskRepository taskRepository, TeamService teamService, TeamRepository teamRepository, ProjectRepository projectRepository, UserRepository userRepository) {
@@ -29,16 +30,14 @@ public class TaskService {
         this.repository = taskRepository;
         this.teamService = teamService;
         this.projectRepository = projectRepository;
-    }
-
-    public List<TaskResponseDTO> retrieveAllTask() {
-        return repository.findAll()
-                .stream()
-                .map(mapper::toTaskResponseDTO)
-                .toList();
+        this.teamRepository = teamRepository;
     }
 
     public TaskResponseDTO retrieveTask(Integer id) {
+        Task task = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Task not found")
+        );
+        teamService.checkMembership(task.getProject().getTeam());
         return mapper.toTaskResponseDTO(repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found")));
     }
@@ -77,6 +76,22 @@ public class TaskService {
         Task existingTask = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found"));
 
+        Project project = projectRepository.findById(existingTask.getProject().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Project not found")
+        );
+        teamService.checkOwner(project.getTeam());
+
         repository.delete(existingTask);
+    }
+
+    public List<TaskResponseDTO> retrieveTasks(Integer projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(
+                () -> new EntityNotFoundException("Project not found")
+        );
+        teamService.checkMembership(project.getTeam());
+        return repository.findByProjectId(projectId)
+                .stream()
+                .map(mapper::toTaskResponseDTO)
+                .toList();
     }
 }

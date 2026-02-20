@@ -23,9 +23,11 @@ public class TaskController {
         return service.retrieveTask(id);
     }
 
-    @GetMapping
-    public List<TaskResponseDTO> getAllTask () {
-        return service.retrieveAllTask();
+    @GetMapping("/projects/{project-id}")
+    public List<TaskResponseDTO> getTasks(
+            @PathVariable("project-id") Integer projectId
+    ) {
+        return service.retrieveTasks(projectId);
     }
 
     @PostMapping
